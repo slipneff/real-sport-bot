@@ -14,6 +14,7 @@ module.exports = {
         ecmaVersion: 2021,
         sourceType: 'module',
         project: ['tsconfig.json'],
+        tsconfigRootDir: __dirname,
         createDefaultProgram: true,
     },
     rules: {
@@ -23,10 +24,7 @@ module.exports = {
         'comma-style': ['error', 'last'],
         'func-call-spacing': ['error', 'never'],
         'function-paren-newline': ['error', 'consistent'],
-        'key-spacing': [
-            'error',
-            { beforeColon: false, afterColon: true, mode: 'strict' },
-        ],
+        'key-spacing': ['error', { beforeColon: false, afterColon: true, mode: 'strict' }],
         'linebreak-style': ['error', 'unix'],
         // easy-to-read-and-refactor syntax
         '@typescript-eslint/no-shadow': ['error', { hoist: 'never' }],
