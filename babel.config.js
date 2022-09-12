@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = function (api) {
     api.cache(true);
     return {
@@ -9,6 +10,9 @@ module.exports = function (api) {
                     root: ['./'],
                     alias: {
                         '@api': './src/api',
+                        '@models': './src/models',
+                        '@images': './src/images',
+                        '@raw': './src/raw',
                     },
                 },
             ],
