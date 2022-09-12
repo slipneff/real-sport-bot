@@ -1,5 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import FilerWorker from './utils/database';
 
 const app = express();
 
