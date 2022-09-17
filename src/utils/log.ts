@@ -10,6 +10,6 @@ const config = {
     enabledExtensions: ['command'] as const,
 };
 
-const logs = logger.createLogger<typeof config.levels, typeof config.enabledExtensions[number]>(config);
+const log = logger.createLogger<typeof config.levels, typeof config.enabledExtensions[number]>(config);
 
-export default logs;
+export default log;
