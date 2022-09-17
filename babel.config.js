@@ -13,6 +13,7 @@ module.exports = function (api) {
                         '@models': './src/models',
                         '@images': './src/images',
                         '@raw': './src/raw',
+                        '@handlers': './src/handlers',
                     },
                 },
             ],
