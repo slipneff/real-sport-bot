@@ -11,7 +11,8 @@ const config = {
         debug: 1,
     },
     transportOptions: {
-        color: 'ansi',
+        // eslint-disable-next-line
+        color: `ansi`,
     },
     enabledExtensions: ['command'] as const,
     async: true,
