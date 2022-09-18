@@ -3,5 +3,5 @@ export default interface Participant {
 
     phoneNumber: string;
 
-    raiting: number;
+    rating: number;
 }
