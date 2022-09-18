@@ -24,6 +24,10 @@ const finish = async ctx => {
 // INITIALS BLOCK
 
 const checkInitials = async ctx => {
+    ctx.session.isWaitingForInitials = false;
+    ctx.session.isWaitingForPhone = false;
+    ctx.session.isWaitingForContact = false;
+
     if (ctx.chat && ctx.chat.first_name && ctx.chat.last_name) {
         ctx.session.initials ||= `${ctx.chat.first_name} ${ctx.chat.last_name}`;
     }
@@ -40,6 +44,9 @@ const checkInitials = async ctx => {
 
 const enterInitials = async ctx => {
     ctx.session.isWaitingForInitials = true;
+    ctx.session.isWaitingForPhone = false;
+    ctx.session.isWaitingForContact = false;
+
     return await ctx.reply(strings.initials.request);
 };
 
@@ -50,6 +57,8 @@ const handleInitials = async (ctx, next) => {
         // todo: validate data
         ctx.session.initials = ctx.message.text;
         ctx.session.isWaitingForInitials = false;
+        ctx.session.isWaitingForPhone = false;
+        ctx.session.isWaitingForContact = false;
         return await checkInitials(ctx);
     }
 };
@@ -57,6 +66,10 @@ const handleInitials = async (ctx, next) => {
 // PHONE BLOCK
 
 const checkPhone = async ctx => {
+    ctx.session.isWaitingForInitials = false;
+    ctx.session.isWaitingForPhone = false;
+    ctx.session.isWaitingForContact = false;
+
     if (ctx.session.phone) {
         return await ctx.reply(
             strings.phone.confirm(ctx.session.phone),
@@ -68,6 +81,8 @@ const checkPhone = async ctx => {
 };
 
 const requestPhoneEnterMethod = async ctx => {
+    ctx.session.isWaitingForInitials = false;
+    ctx.session.isWaitingForPhone = false;
     ctx.session.isWaitingForContact = true;
 
     return await ctx.reply(
@@ -80,7 +95,10 @@ const requestPhoneEnterMethod = async ctx => {
 };
 
 const enterPhone = async ctx => {
+    ctx.session.isWaitingForInitials = false;
     ctx.session.isWaitingForPhone = true;
+    ctx.session.isWaitingForContact = false;
+
     return await ctx.reply(strings.phone.request.number);
 };
 
@@ -102,6 +120,7 @@ const handleContact = async (ctx, next) => {
 
     if (ctx.session.isWaitingForContact && ctx.message && ctx.message.contact) {
         // todo: validate data and handle entities
+        ctx.session.isWaitingForInitials = false;
         ctx.session.isWaitingForPhone = false;
         ctx.session.isWaitingForContact = false;
         ctx.session.phone = ctx.message.contact.phone_number;
