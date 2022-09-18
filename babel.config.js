@@ -9,11 +9,11 @@ module.exports = function (api) {
                 {
                     root: ['./'],
                     alias: {
-                        '@api': './src/api',
-                        '@models': './src/models',
-                        '@images': './src/images',
-                        '@raw': './src/raw',
                         '@handlers': './src/handlers',
+                        '@images': './src/images',
+                        '@models': './src/models',
+                        '@raw': './src/raw',
+                        '@utils': './src/utils',
                     },
                 },
             ],

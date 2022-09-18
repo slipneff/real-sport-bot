@@ -7,11 +7,11 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@api/*": ["src/api/*"],
-      "@models/*": ["src/models/*"],
+      "@handlers/*": ["src/handlers/*"],
       "@images/*": ["src/images/*"],
+      "@models/*": ["src/models/*"],
       "@raw/*": ["src/raw/*"],
-      "@handlers/*": ["src/handlers/*"]
+      "@utils/*": ["src/utils/*"]
     }
   }
 }
