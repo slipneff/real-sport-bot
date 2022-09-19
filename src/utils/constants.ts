@@ -3,4 +3,5 @@ export const Scenes = {
     INITIALS: '@scene-initials',
     PHONE: '@scene-phone',
     QUIZ: '@scene-quiz',
+    RESULTS: '@scene-results',
 };
