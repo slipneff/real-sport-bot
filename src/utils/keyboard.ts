@@ -1,4 +1,4 @@
-export default keyboardLayout => ({
+export default (keyboardLayout: any = undefined) => ({
     reply_markup: {
         keyboard: keyboardLayout,
         resize_keyboard: true,
