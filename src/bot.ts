@@ -1,30 +1,35 @@
 import { Telegraf } from 'telegraf';
 import session from 'telegraf/session';
 import Stage from 'telegraf/stage';
-import greeter from '@scenes/greeter';
-import quiz from '@scenes/quiz';
 import { Scenes } from '@utils/constants';
+import greeter from '@scenes/greeter';
 import initials from '@scenes/initials';
 import phone from '@scenes/phone';
+import quiz from '@scenes/quiz';
+import question from '@scenes/question';
 import results from '@scenes/results';
 
-const init = ctx => {
-    ctx.session.sectionIndex = 0;
-    ctx.session.questionIndex = 0;
-    ctx.session.score = 0;
-
-    ctx.scene.enter(Scenes.GREETER);
+const initState = ctx => {
+    ctx.session.state = {
+        ...ctx.session.state,
+        section: 0,
+        question: 0,
+        score: 0,
+    };
 };
 
 const stage = new Stage();
-stage.register(greeter, initials, phone, quiz, results);
+stage.register(greeter, initials, phone, quiz, question, results);
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_API_TOKEN);
 bot.use(session());
 bot.use(stage.middleware());
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-bot.start(init);
+bot.start(async ctx => {
+    initState(ctx);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return await ctx.scene.enter(Scenes.GREETER);
+});
 
 export default () => bot.startPolling();
