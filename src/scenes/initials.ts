@@ -3,7 +3,20 @@ import { Scenes } from '@utils/constants';
 import strings from '@utils/strings';
 import keyboard from '@utils/keyboard';
 
-const validate = (initials: string): boolean => initials && true;
+const validate = (initials: string): boolean =>
+    // eslint-disable-next-line
+    /([А-ЯЁа-яё]+[\-\s]?){2,}/.test(initials);
+
+const format = (initials: string): string => {
+    if (!validate(initials)) return;
+
+    return initials
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
+        .map(el => el[0].toUpperCase() + el.slice(1, el.length).toLowerCase())
+        .join(' ');
+};
 
 // init scene state
 const initState = ctx => {
@@ -18,7 +31,8 @@ const initState = ctx => {
 // reducer works with state and resolve how to change state
 const checkInitials = async ctx => {
     if (ctx.chat && ctx.chat.first_name && ctx.chat.last_name) {
-        ctx.session.state.initials ||= `${ctx.chat.first_name} ${ctx.chat.last_name}`;
+        const initials = `${ctx.chat.first_name} ${ctx.chat.last_name}`;
+        if (validate(initials)) ctx.session.state.initials ||= format(initials);
     }
 
     // Initials are already requested, handler is waiting for result
@@ -50,10 +64,13 @@ const handleInitials = async (ctx, next) => {
     await next();
 
     if (ctx.session.state.isHandlingInitials && ctx.message) {
-        // todo: validate data
-        ctx.session.state.isHandlingInitials = false;
-        ctx.session.state.initials = ctx.message.text;
-        return await checkInitials(ctx);
+        if (validate(ctx.message.text)) {
+            ctx.session.state.isHandlingInitials = false;
+            ctx.session.state.initials = format(ctx.message.text);
+            return await checkInitials(ctx);
+        }
+
+        return await ctx.reply(strings.initials.error);
     }
 };
 

@@ -3,7 +3,22 @@ import { Scenes } from '@utils/constants';
 import strings from '@utils/strings';
 import keyboard from '@utils/keyboard';
 
-const validate = (phone: string): boolean => phone && true;
+const validate = (phone: string): boolean =>
+    // eslint-disable-next-line
+    /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/.test(phone);
+
+const format = (phone: string): string => {
+    if (!validate(phone)) return;
+
+    phone = phone.replace(/\D/g, '');
+
+    return (
+        `+7(${phone.slice(1, 3 + 1)})` +
+        `${phone.slice(3 + 1, 6 + 1)}-` +
+        `${phone.slice(6 + 1, 8 + 1)}-` +
+        `${phone.slice(8 + 1, 10 + 1)}`
+    );
+};
 
 // init scene state
 const initState = ctx => {
@@ -62,11 +77,14 @@ const handlePhone = async (ctx, next) => {
     await next();
 
     if (ctx.session.state.isHandlingPhone && ctx.message) {
-        // todo: validate data and handle entities
-        ctx.session.state.isHandlingPhone = false;
-        ctx.session.state.isHandlingContact = false;
-        ctx.session.state.phone = ctx.message.text;
-        return await checkPhone(ctx);
+        if (validate(ctx.message.text)) {
+            ctx.session.state.isHandlingPhone = false;
+            ctx.session.state.isHandlingContact = false;
+            ctx.session.state.phone = format(ctx.message.text);
+            return await checkPhone(ctx);
+        }
+
+        return await ctx.reply(strings.phone.error);
     }
 };
 
@@ -75,11 +93,14 @@ const handleContact = async (ctx, next) => {
     await next();
 
     if (ctx.session.state.isHandlingContact && ctx.message && ctx.message.contact) {
-        // todo: validate data and handle entities
-        ctx.session.state.isHandlingPhone = false;
-        ctx.session.state.isHandlingContact = false;
-        ctx.session.state.phone = ctx.message.contact.phone_number;
-        return await checkPhone(ctx);
+        if (validate(ctx.message.contact.phone_number)) {
+            ctx.session.state.isHandlingPhone = false;
+            ctx.session.state.isHandlingContact = false;
+            ctx.session.state.phone = format(ctx.message.contact.phone_number);
+            return await checkPhone(ctx);
+        }
+
+        return await ctx.reply(strings.phone.error);
     }
 };
 
