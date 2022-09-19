@@ -6,7 +6,7 @@ import keyboard from '@utils/keyboard';
 const validate = (phone: string): boolean => phone && true;
 
 // init scene state
-const initState = async ctx => {
+const initState = ctx => {
     ctx.session.state = {
         ...ctx.session.state,
         phone: '',
@@ -98,16 +98,16 @@ const resolveScene = async ctx => {
     return await ctx.scene.enter(Scenes.PHONE);
 };
 
-const phone = new Scene(Scenes.PHONE);
+const scene = new Scene(Scenes.PHONE);
 
-phone.enter(async ctx => {
-    await initState(ctx);
-    await checkPhone(ctx);
+scene.enter(async ctx => {
+    initState(ctx);
+    return await checkPhone(ctx);
 });
-phone.hears(strings.phone.enterByHand, requestPhone);
-phone.hears(strings.phone.no, requestPhoneEnterMethod);
-phone.hears(strings.phone.yes, resolveScene);
+scene.hears(strings.phone.enterByHand, requestPhone);
+scene.hears(strings.phone.no, requestPhoneEnterMethod);
+scene.hears(strings.phone.yes, resolveScene);
 
-phone.use(handlePhone, handleContact);
+scene.use(handlePhone, handleContact);
 
-export default phone;
+export default scene;

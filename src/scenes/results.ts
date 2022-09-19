@@ -2,13 +2,9 @@ import { Scenes } from '@utils/constants';
 import strings from '@utils/strings';
 import Scene from 'telegraf/scenes/base';
 
-const init = ctx => {
-    const score = ctx.session.score;
+const init = async ctx => await ctx.reply(strings.quiz.score(ctx.session.state.score));
 
-    ctx.reply(strings.quiz.score(score));
-};
+const scene = new Scene(Scenes.RESULTS);
+scene.enter(init);
 
-const results = new Scene(Scenes.RESULTS);
-results.enter(init);
-
-export default results;
+export default scene;

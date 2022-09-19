@@ -6,7 +6,7 @@ import keyboard from '@utils/keyboard';
 const validate = (initials: string): boolean => initials && true;
 
 // init scene state
-const initState = async ctx => {
+const initState = ctx => {
     ctx.session.state = {
         ...ctx.session.state,
         initials: '',
@@ -71,15 +71,15 @@ const resolveScene = async ctx => {
     return await ctx.scene.enter(Scenes.INITIALS);
 };
 
-const initials = new Scene(Scenes.INITIALS);
+const scene = new Scene(Scenes.INITIALS);
 
-initials.enter(async ctx => {
-    await initState(ctx);
-    await checkInitials(ctx);
+scene.enter(async ctx => {
+    initState(ctx);
+    return await checkInitials(ctx);
 });
-initials.hears(strings.initials.no, requestInitials);
-initials.hears(strings.initials.yes, resolveScene);
+scene.hears(strings.initials.no, requestInitials);
+scene.hears(strings.initials.yes, resolveScene);
 
-initials.use(handleInitials);
+scene.use(handleInitials);
 
-export default initials;
+export default scene;
