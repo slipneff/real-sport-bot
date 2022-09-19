@@ -4,7 +4,13 @@ import path from 'path';
 import quiz from '@utils/quiz';
 import keyboard from '@utils/keyboard';
 
-// BASE BLOCK
+const format = (data: string): string => {
+    return data
+        .replace(/[^А-ЯЁа-яёa-zA-Z0-9 ]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+};
 
 const init = async ctx => {
     const section = quiz.sections[ctx.session.state.section];
@@ -32,9 +38,11 @@ const scene = new Scene(Scenes.QUESTION);
 scene.enter(init);
 
 scene.on('text', async ctx => {
-    // todo: compare unified string
     // compare answers
-    if (ctx.message.text === quiz.sections[ctx.session.state.section].questions[ctx.session.state.question].answer) {
+    if (
+        format(ctx.message.text) ===
+        format(quiz.sections[ctx.session.state.section].questions[ctx.session.state.question].answer)
+    ) {
         ctx.session.state.score += 1;
     }
 
