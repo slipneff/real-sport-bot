@@ -3,6 +3,7 @@ import { Scenes } from '@utils/constants';
 import path from 'path';
 import quiz from '@utils/quiz';
 import keyboard from '@utils/keyboard';
+import database from '@utils/database';
 
 const format = (data: string): string => {
     return data
@@ -43,7 +44,8 @@ scene.on('text', async ctx => {
         format(ctx.message.text) ===
         format(quiz.sections[ctx.session.state.section].questions[ctx.session.state.question].answer)
     ) {
-        ctx.session.state.score += 1;
+        ctx.session.state.participant.score += 1;
+        await database.update(ctx.session.state.participant);
     }
 
     // increment counters and update them if needed

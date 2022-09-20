@@ -22,7 +22,10 @@ const format = (initials: string): string => {
 const initState = ctx => {
     ctx.session.state = {
         ...ctx.session.state,
-        initials: '',
+        participant: {
+            ...ctx.session.state.participant,
+            initials: '',
+        },
         isHandlingInitials: false,
         isInitialsFilled: false,
     };
@@ -32,18 +35,18 @@ const initState = ctx => {
 const checkInitials = async ctx => {
     if (ctx.chat && ctx.chat.first_name && ctx.chat.last_name) {
         const initials = `${ctx.chat.first_name} ${ctx.chat.last_name}`;
-        if (validate(initials)) ctx.session.state.initials ||= format(initials);
+        if (validate(initials)) ctx.session.state.participant.initials ||= format(initials);
     }
 
     // Initials are already requested, handler is waiting for result
     if (ctx.session.state.isHandlingInitials) return;
 
     // if initials exist, change flag and request confirmation
-    if (ctx.session.state.initials) {
+    if (ctx.session.state.participant.initials) {
         ctx.session.state.isInitialsFilled = true;
 
         return await ctx.reply(
-            strings.initials.confirm(ctx.session.state.initials),
+            strings.initials.confirm(ctx.session.state.participant.initials),
             keyboard([[{ text: strings.initials.yes }, { text: strings.initials.no }]]),
         );
     }
@@ -66,7 +69,7 @@ const handleInitials = async (ctx, next) => {
     if (ctx.session.state.isHandlingInitials && ctx.message) {
         if (validate(ctx.message.text)) {
             ctx.session.state.isHandlingInitials = false;
-            ctx.session.state.initials = format(ctx.message.text);
+            ctx.session.state.participant.initials = format(ctx.message.text);
             return await checkInitials(ctx);
         }
 
@@ -79,7 +82,7 @@ const resolveScene = async ctx => {
     if (
         !ctx.session.state.isHandlingInitials &&
         ctx.session.state.isInitialsFilled &&
-        validate(ctx.session.state.initials)
+        validate(ctx.session.state.participant.initials)
     ) {
         return await ctx.scene.enter(Scenes.PHONE);
     }

@@ -24,7 +24,10 @@ const format = (phone: string): string => {
 const initState = ctx => {
     ctx.session.state = {
         ...ctx.session.state,
-        phone: '',
+        participant: {
+            ...ctx.session.state.participant,
+            phone: '',
+        },
         isHandlingPhone: false,
         isHandlingContact: false,
         isPhoneFilled: false,
@@ -37,11 +40,11 @@ const checkPhone = async ctx => {
     if (ctx.session.state.isHandlingPhone || ctx.session.state.isHandlingContact) return;
 
     // if phone exists, change flag and request confirmation
-    if (ctx.session.state.phone) {
+    if (ctx.session.state.participant.phone) {
         ctx.session.state.isPhoneFilled = true;
 
         return await ctx.reply(
-            strings.phone.confirm(ctx.session.state.phone),
+            strings.phone.confirm(ctx.session.state.participant.phone),
             keyboard([[{ text: strings.phone.yes }, { text: strings.phone.no }]]),
         );
     }
@@ -80,7 +83,7 @@ const handlePhone = async (ctx, next) => {
         if (validate(ctx.message.text)) {
             ctx.session.state.isHandlingPhone = false;
             ctx.session.state.isHandlingContact = false;
-            ctx.session.state.phone = format(ctx.message.text);
+            ctx.session.state.participant.phone = format(ctx.message.text);
             return await checkPhone(ctx);
         }
 
@@ -96,7 +99,7 @@ const handleContact = async (ctx, next) => {
         if (validate(ctx.message.contact.phone_number)) {
             ctx.session.state.isHandlingPhone = false;
             ctx.session.state.isHandlingContact = false;
-            ctx.session.state.phone = format(ctx.message.contact.phone_number);
+            ctx.session.state.participant.phone = format(ctx.message.contact.phone_number);
             return await checkPhone(ctx);
         }
 
@@ -110,7 +113,7 @@ const resolveScene = async ctx => {
         !ctx.session.state.isHandlingPhone &&
         !ctx.session.state.isHandlingContact &&
         ctx.session.state.isPhoneFilled &&
-        validate(ctx.session.state.phone)
+        validate(ctx.session.state.participant.phone)
     ) {
         return await ctx.scene.enter(Scenes.QUIZ);
     }

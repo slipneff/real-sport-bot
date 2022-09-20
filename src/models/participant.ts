@@ -1,7 +1,7 @@
 export default interface Participant {
-    name: string;
+    initials: string;
 
-    phoneNumber: string;
+    phone: string;
 
-    rating: number;
+    score: number;
 }

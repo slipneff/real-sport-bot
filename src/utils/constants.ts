@@ -5,4 +5,5 @@ export const Scenes = {
     QUIZ: '@scene-quiz',
     QUESTION: '@scene-question',
     RESULTS: '@scene-results',
+    INVALID: '@scene-invalid',
 };
