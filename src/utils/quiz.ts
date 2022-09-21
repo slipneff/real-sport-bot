@@ -1,11 +1,12 @@
 export default {
     sections: [
         {
+            time: 16 * 60 * 1000,
             message: 'Раздел 1. Логика. Не больше 16 минут.',
             questions: [
                 {
                     question: 'Какое женское имя объединяет трех этих персонажей/людей?',
-                    attachments: ['images/steve-jobs.jpg', 'images/ben-stiller.jpg', 'images/wall-e.jpg'],
+                    attachments: ['steve-jobs.jpg', 'ben-stiller.jpg', 'wall-e.jpg'],
                     answer: 'Ева',
                 },
                 {
@@ -20,19 +21,13 @@ export default {
                 {
                     question:
                         'Поставьте логотипы в правильном порядке так, чтобы из первых букв получилось английское слово, которое есть в слогане одной из этих компаний',
-                    attachments: [
-                        'images/nikon.png',
-                        'images/dell.png',
-                        'images/intel.png',
-                        'images/samsung.png',
-                        'images/ebay.png',
-                        'images/ibm.png',
-                    ],
+                    attachments: ['nikon.png', 'dell.png', 'intel.png', 'samsung.png', 'ebay.png', 'ibm.png'],
                     answer: 'inside',
                 },
             ],
         },
         {
+            time: 5 * 60 * 1000,
             message: 'Раздел 2. Отдых. Не больше 5 минут.',
             questions: [
                 {
@@ -50,16 +45,17 @@ export default {
             ],
         },
         {
+            time: 5 * 60 * 1000,
             message: 'Раздел 3. IT. Не больше 5 минут.',
             questions: [
                 {
                     question: 'Реши IT-ребус',
-                    attachments: ['images/exclamation.png', 'images/bug.png'],
+                    attachments: ['exclamation.png', 'bug.png'],
                     answer: 'Фича',
                 },
                 {
                     question: 'Реши IT-загадку',
-                    attachments: ['images/kid.png', 'images/lamp.png', 'images/tomato.png'],
+                    attachments: ['kid.png', 'lamp.png', 'tomato.png'],
                     answer: 'Мидл',
                 },
                 {

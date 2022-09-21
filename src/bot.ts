@@ -10,6 +10,7 @@ import question from '@scenes/question';
 import results from '@scenes/results';
 import invalid from '@scenes/invalid';
 import vkontakte from '@scenes/vkontakte';
+import log from '@utils/log';
 
 const initState = ctx => {
     ctx.session.state = {
@@ -23,6 +24,7 @@ const initState = ctx => {
             vk: '',
             score: 0,
         },
+        timeout: undefined,
     };
 };
 
@@ -33,8 +35,10 @@ const bot = new Telegraf(process.env.TELEGRAM_BOT_API_TOKEN);
 bot.use(session());
 bot.use(stage.middleware());
 
+bot.catch(err => log.bot.error(`AN ERROR OCCURRED. ${err}`));
 bot.start(async ctx => {
     initState(ctx);
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return await ctx.scene.enter(Scenes.GREETER);
