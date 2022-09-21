@@ -58,6 +58,7 @@ const checkInitials = async ctx => {
 // request only changes flag and send request to user
 const requestInitials = async ctx => {
     ctx.session.state.isHandlingInitials = true;
+    ctx.session.state.isInitialsFilled = false;
 
     return await ctx.reply(strings.initials.request, keyboard());
 };

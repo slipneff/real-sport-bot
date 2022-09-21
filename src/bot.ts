@@ -9,6 +9,7 @@ import quiz from '@scenes/quiz';
 import question from '@scenes/question';
 import results from '@scenes/results';
 import invalid from '@scenes/invalid';
+import vkontakte from '@scenes/vkontakte';
 
 const initState = ctx => {
     ctx.session.state = {
@@ -19,13 +20,14 @@ const initState = ctx => {
         participant: {
             initials: '',
             phone: '',
+            vk: '',
             score: 0,
         },
     };
 };
 
 const stage = new Stage();
-stage.register(greeter, initials, phone, quiz, question, results, invalid);
+stage.register(greeter, initials, phone, vkontakte, quiz, question, results, invalid);
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_API_TOKEN);
 bot.use(session());

@@ -57,6 +57,7 @@ const checkPhone = async ctx => {
 const requestPhoneEnterMethod = async ctx => {
     ctx.session.state.isHandlingPhone = false;
     ctx.session.state.isHandlingContact = true;
+    ctx.session.state.isPhoneFilled = false;
 
     return await ctx.reply(
         strings.phone.request.method,
@@ -115,7 +116,7 @@ const resolveScene = async ctx => {
         ctx.session.state.isPhoneFilled &&
         validate(ctx.session.state.participant.phone)
     ) {
-        return await ctx.scene.enter(Scenes.QUIZ);
+        return await ctx.scene.enter(Scenes.VKONTAKTE);
     }
 
     // if state is not valid, reload current scene to drop the state

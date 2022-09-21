@@ -3,5 +3,7 @@ export default interface Participant {
 
     phone: string;
 
+    vk: string;
+
     score: number;
 }
