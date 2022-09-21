@@ -9,6 +9,10 @@ export const Scenes = {
     INVALID: '@scene-invalid',
 };
 
+export const Commands = {
+    RESULTS: 'results',
+};
+
 export const Mode = {
     DEV: 'DEV',
     PROD: 'PROD',
