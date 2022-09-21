@@ -8,3 +8,8 @@ export const Scenes = {
     RESULTS: '@scene-results',
     INVALID: '@scene-invalid',
 };
+
+export const Mode = {
+    DEV: 'DEV',
+    PROD: 'PROD',
+};

@@ -6,9 +6,9 @@
   "author": "x3noku <x3noku@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "DOTENV_CONFIG_PATH=.env.dev ts-node -r dotenv/config -r tsconfig-paths/register ./src/index.ts",
+    "dev": "NODE_ENV=DEV DOTENV_CONFIG_PATH=.env.dev ts-node -r dotenv/config -r tsconfig-paths/register ./src/index.ts",
     "watch": "nodemon",
-    "prod": "npx tsc && DOTENV_CONFIG_PATH=.env.prod TS_NODE_BASEURL=./dist node -r dotenv/config -r tsconfig-paths/register ./dist/src/index.js",
+    "prod": "npx tsc && NODE_ENV=PROD DOTENV_CONFIG_PATH=.env.prod TS_NODE_BASEURL=./dist node -r dotenv/config -r tsconfig-paths/register ./dist/src/index.js",
     "format": "eslint --cache --fix ."
   },
   "dependencies": {

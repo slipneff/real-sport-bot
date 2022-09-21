@@ -4,6 +4,7 @@ import log from '@utils/log';
 
 const app = express();
 app.listen(process.env.PORT, () => {
-    log.info(`APPLICATION IS LISTENING ON PORT ${process.env.PORT}`);
+    log.info(`LISTENING ON PORT ${process.env.PORT}.`);
+    log.info(`WORKING IN ${process.env.NODE_ENV} MODE.`);
     bot();
 });

@@ -1,8 +1,9 @@
 import { consoleTransport, logger } from 'xenous-logs';
+import { Mode } from '@utils/constants';
 
 const config = {
     transport: consoleTransport,
-    severity: 'debug',
+    severity: process.env.NODE_ENV === Mode.DEV ? 'debug' : 'error',
     levels: {
         info: 6,
         error: 3,
@@ -14,9 +15,9 @@ const config = {
         // eslint-disable-next-line
         color: `ansi`,
     },
-    enabledExtensions: ['command'] as const,
+    enabledExtensions: ['bot', 'greeter', 'initials', 'phone', 'vk', 'quiz', 'question', 'result', 'invalid'] as const,
     async: true,
-    dateFormat: 'time',
+    dateFormat: process.env.NODE_ENV === Mode.DEV ? 'time' : 'utc',
     printLevel: true,
     printDate: true,
     enabled: true,
