@@ -60,10 +60,12 @@ scene.enter(init);
 
 scene.on('text', async ctx => {
     // compare answers
-    if (
-        format(ctx.message.text) ===
-        format(quiz.sections[ctx.session.state.section].questions[ctx.session.state.question].answer)
-    ) {
+	const answers = quiz.sections[ctx.session.state.section].questions[ctx.session.state.question].answer;
+
+	let answersMatch = false;
+	[Array.isArray(answers) ? ...answers : answers].forEach(answer => answersMatch ||= format(ctx.message.text) === format(answer));
+
+    if (answersMatch) {
         ctx.session.state.participant.score += 1;
         await database.update(ctx.session.state.participant);
     }

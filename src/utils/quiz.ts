@@ -2,12 +2,12 @@ export default {
     sections: [
         {
             time: 16 * 60 * 1000,
-            message: 'Раздел 1. Логика. Не больше 16 минут.',
+            message: 'Раздел 1. Да здравствует логика! Не больше 16 минут.',
             questions: [
                 {
                     question: 'Какое женское имя объединяет трех этих персонажей/людей?',
                     attachments: ['steve-jobs.jpg', 'ben-stiller.jpg', 'wall-e.jpg'],
-                    answer: 'Ева',
+                    answer: ['Ева', 'Eve'],
                 },
                 {
                     question:
@@ -28,14 +28,14 @@ export default {
         },
         {
             time: 5 * 60 * 1000,
-            message: 'Раздел 2. Отдых. Не больше 5 минут.',
+            message: 'Раздел 2. Время отдохнуть! Не больше 5 минут.',
             questions: [
                 {
-                    question: 'Напиши слово, которое объединяет эти три Соль – Конь - Голубизна',
+					question: 'Напиши слово, которое объединяет эти три: Соль – Конь - Голубизна',
                     answer: 'Море',
                 },
                 {
-                    question: 'Напиши слово, которое объединяет эти три Мягкий – Ученый - Борис',
+					question: 'Напиши слово, которое объединяет эти три: Мягкий – Ученый - Борис',
                     answer: 'Кот',
                 },
                 {
@@ -46,7 +46,7 @@ export default {
         },
         {
             time: 5 * 60 * 1000,
-            message: 'Раздел 3. IT. Не больше 5 минут.',
+            message: 'Раздел 3. Поговорим об IT. Не больше 5 минут.',
             questions: [
                 {
                     question: 'Реши IT-ребус',
@@ -54,9 +54,9 @@ export default {
                     answer: 'Фича',
                 },
                 {
-                    question: 'Реши IT-загадку',
+                    question: 'Реши it- ребус. Что/кто стоит на месте вопроса?',
                     attachments: ['kid.png', 'lamp.png', 'tomato.png'],
-                    answer: 'Мидл',
+                    answer: ['Мидл', 'Миддл', 'Middle'],
                 },
                 {
                     question:
