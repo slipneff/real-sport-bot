@@ -36,6 +36,9 @@ export default {
         start: 'Готов!',
         outOfTime: 'К сожалению, время на текущий раздел истекло...', // todo: replace string
     },
+    question: {
+        dontKnow: 'Не знаю',
+    },
     results: {
         greeting:
             'Поздравляем! Ты решился, дошел до конца и это уже успех!\n' +

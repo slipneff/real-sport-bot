@@ -27,12 +27,12 @@ const init = async ctx => {
 
     // we've entered new section
     if (!ctx.session.state.question) {
-        await ctx.reply(section.message, keyboard());
+        await ctx.reply(section.message, keyboard([[{ text: strings.question.dontKnow }]]));
 
         // start timeout
         if (ctx.session.state.timeout) clearTimeout(ctx.session.state.timeout);
         ctx.session.state.timeout = setTimeout(async () => {
-            await ctx.reply(strings.quiz.outOfTime);
+            await ctx.reply(strings.quiz.outOfTime, keyboard([[{ text: strings.question.dontKnow }]]));
 
             ctx.session.state.section += 1;
             ctx.session.state.question = 0;
@@ -48,10 +48,10 @@ const init = async ctx => {
             type: 'photo',
         }));
 
-        return await ctx.replyWithMediaGroup(media, keyboard());
+        return await ctx.replyWithMediaGroup(media);
     }
 
-    return await ctx.reply(question.question, keyboard());
+    return await ctx.reply(question.question, keyboard([[{ text: strings.question.dontKnow }]]));
 };
 
 const scene = new Scene(Scenes.QUESTION);
@@ -60,12 +60,9 @@ scene.enter(init);
 
 scene.on('text', async ctx => {
     // compare answers
-	const answers = quiz.sections[ctx.session.state.section].questions[ctx.session.state.question].answer;
+    const answers = quiz.sections[ctx.session.state.section].questions[ctx.session.state.question].answer;
 
-	let answersMatch = false;
-	[Array.isArray(answers) ? ...answers : answers].forEach(answer => answersMatch ||= format(ctx.message.text) === format(answer));
-
-    if (answersMatch) {
+    if ((Array.isArray(answers) ? answers : [answers]).some(answer => format(ctx.message.text) === format(answer))) {
         ctx.session.state.participant.score += 1;
         await database.update(ctx.session.state.participant);
     }
