@@ -10,7 +10,7 @@ const validate = (vk: string): boolean =>
 const format = (vk: string): string => {
     if (!validate(vk)) return;
 
-    return vk;
+    return (!vk.startsWith('http') ? 'https://' : '') + vk;
 };
 
 // init scene state
