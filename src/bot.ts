@@ -41,7 +41,7 @@ const requestPassword = async ctx => {
 const handlePassword = async (ctx, next) => {
     await next();
 
-    if (ctx.session.state.isHandlingPassword && ctx.message) {
+    if (ctx.session && ctx.session.state && ctx.session.state.isHandlingPassword && ctx.message) {
         ctx.session.state.isHandlingPassword = false;
 
         if (ctx.message.text === process.env.EXCEL_PASSWORD) {
