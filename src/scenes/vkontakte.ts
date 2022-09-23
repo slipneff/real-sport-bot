@@ -5,12 +5,12 @@ import keyboard from '@utils/keyboard';
 
 const validate = (vk: string): boolean =>
     // eslint-disable-next-line
-    /(https{0,1}:\/\/)?(www\.)?(m\.)?(vk.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})/.test(vk);
+    /(https{0,1}:\/\/)?(www\.)?(m\.)?(vk.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})/.test(vk.toLowerCase());
 
 const format = (vk: string): string => {
     if (!validate(vk)) return;
 
-    return (!vk.startsWith('http') ? 'https://' : '') + vk;
+    return (!vk.toLowerCase().startsWith('http') ? 'https://' : '') + vk.toLowerCase();
 };
 
 // init scene state
