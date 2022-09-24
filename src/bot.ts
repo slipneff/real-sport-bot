@@ -10,10 +10,10 @@ import question from '@scenes/question';
 import results from '@scenes/results';
 import invalid from '@scenes/invalid';
 import vkontakte from '@scenes/vkontakte';
-import log from '@utils/log';
 import strings from '@utils/strings';
 import keyboard from '@utils/keyboard';
 import database from '@utils/database';
+import signale from 'signale';
 
 const initState = ctx => {
     ctx.session.state = {
@@ -33,6 +33,7 @@ const initState = ctx => {
 };
 
 const requestPassword = async ctx => {
+    signale.info({ prefix: ctx.chat.id, message: 'REQUEST PASSWORD.' });
     ctx.session.state.isHandlingPassword = true;
 
     return await ctx.reply(strings.excel.requestPassword, keyboard());
@@ -45,13 +46,19 @@ const handlePassword = async (ctx, next) => {
         ctx.session.state.isHandlingPassword = false;
 
         if (ctx.message.text === process.env.EXCEL_PASSWORD) {
+            signale.info({ prefix: ctx.chat.id, message: 'PASSWORDS MATCH.' });
+            signale.info({ prefix: ctx.chat.id, message: 'GENERATE EXCEL TABLE.' });
             const db = await database.read();
             const table = database.exportTable(db);
             const buffer = await table.writeToBuffer();
 
-            return await ctx.replyWithDocument({ source: buffer, filename: strings.excel.file });
+            await ctx.replyWithDocument({ source: buffer, filename: strings.excel.file });
+            signale.success({ prefix: ctx.chat.id, message: 'SEND EXCEL TABLE.' });
+
+            return;
         }
 
+        signale.warn({ prefix: ctx.chat.id, message: 'PASSWORDS MATCH.' });
         return await ctx.reply(strings.excel.wrongPassword);
     }
 };
@@ -63,9 +70,10 @@ const bot = new Telegraf(process.env.TELEGRAM_BOT_API_TOKEN);
 bot.use(session());
 bot.use(stage.middleware());
 
-bot.catch(err => log.bot.error(`AN ERROR OCCURRED. ${err}`));
+bot.catch((err, ctx) => signale.error({ prefix: ctx.chat.id, message: err }));
 bot.start(async ctx => {
     initState(ctx);
+    signale.success({ prefix: ctx.chat.id, message: 'BOT SUCCESSFULLY STARTED.' });
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

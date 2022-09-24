@@ -5,6 +5,7 @@ import quiz from '@utils/quiz';
 import keyboard from '@utils/keyboard';
 import database from '@utils/database';
 import strings from '@utils/strings';
+import signale from 'signale';
 
 const format = (data: string): string => {
     return data
@@ -15,6 +16,10 @@ const format = (data: string): string => {
 };
 
 const init = async ctx => {
+    signale.info({
+        prefix: ctx.chat.id,
+        message: `ENTER ${Scenes.QUIZ}. SECTION: ${ctx.session.state.section}. QUESTION: ${ctx.session.state.question}`,
+    });
     // if we are out of sections, go to result scene
     if (ctx.session.state.section >= quiz.sections.length) {
         if (ctx.session.state.timeout) clearTimeout(ctx.session.state.timeout);
@@ -32,6 +37,7 @@ const init = async ctx => {
         // start timeout
         if (ctx.session.state.timeout) clearTimeout(ctx.session.state.timeout);
         ctx.session.state.timeout = setTimeout(async () => {
+            signale.info({ prefix: ctx.chat.id, message: 'TIME IS OUT.' });
             await ctx.reply(strings.quiz.outOfTime, keyboard([[{ text: strings.question.dontKnow }]]));
 
             ctx.session.state.section += 1;
@@ -63,9 +69,11 @@ scene.on('text', async ctx => {
     const answers = quiz.sections[ctx.session.state.section].questions[ctx.session.state.question].answer;
 
     if ((Array.isArray(answers) ? answers : [answers]).some(answer => format(ctx.message.text) === format(answer))) {
+        signale.info({ prefix: ctx.chat.id, message: 'ANSWERS MATCH.' });
         ctx.session.state.participant.score += 1;
         await database.update(ctx.session.state.participant);
-    }
+        signale.success({ prefix: ctx.chat.id, message: 'UPDATE DATABASE SCORE.' });
+    } else signale.info({ prefix: ctx.chat.id, message: 'ANSWERS DON`T MATCH.' });
 
     // increment counters and update them if needed
     if (++ctx.session.state.question >= quiz.sections[ctx.session.state.section].questions.length) {

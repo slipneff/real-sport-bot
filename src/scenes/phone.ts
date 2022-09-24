@@ -2,6 +2,7 @@ import Scene from 'telegraf/scenes/base';
 import { Scenes } from '@utils/constants';
 import strings from '@utils/strings';
 import keyboard from '@utils/keyboard';
+import signale from 'signale';
 
 const validate = (phone: string): boolean =>
     // eslint-disable-next-line
@@ -43,6 +44,10 @@ const checkPhone = async ctx => {
     if (ctx.session.state.participant.phone) {
         ctx.session.state.isPhoneFilled = true;
 
+        signale.info({
+            prefix: ctx.chat.id,
+            message: `REQUEST CONFIRMATION FOR ${ctx.session.state.participant.phone}.`,
+        });
         return await ctx.reply(
             strings.phone.confirm(ctx.session.state.participant.phone),
             keyboard([[{ text: strings.phone.yes }, { text: strings.phone.no }]]),
@@ -55,6 +60,7 @@ const checkPhone = async ctx => {
 
 // request only changes flags and send request to user
 const requestPhoneEnterMethod = async ctx => {
+    signale.info({ prefix: ctx.chat.id, message: 'REQUEST PHONE ENTER METHOD.' });
     ctx.session.state.isHandlingPhone = false;
     ctx.session.state.isHandlingContact = true;
     ctx.session.state.isPhoneFilled = false;
@@ -70,6 +76,7 @@ const requestPhoneEnterMethod = async ctx => {
 
 // request only changes flags and send request to user
 const requestPhone = async ctx => {
+    signale.info({ prefix: ctx.chat.id, message: 'REQUEST PHONE.' });
     ctx.session.state.isHandlingPhone = true;
     ctx.session.state.isHandlingContact = true;
 
@@ -82,12 +89,14 @@ const handlePhone = async (ctx, next) => {
 
     if (ctx.session.state.isHandlingPhone && ctx.message) {
         if (validate(ctx.message.text)) {
+            signale.info({ prefix: ctx.chat.id, message: 'PHONE IS VALID.' });
             ctx.session.state.isHandlingPhone = false;
             ctx.session.state.isHandlingContact = false;
             ctx.session.state.participant.phone = format(ctx.message.text);
             return await checkPhone(ctx);
         }
 
+        signale.info({ prefix: ctx.chat.id, message: 'PHONE IS INVALID.' });
         return await ctx.reply(strings.phone.error);
     }
 };
@@ -98,12 +107,14 @@ const handleContact = async (ctx, next) => {
 
     if (ctx.session.state.isHandlingContact && ctx.message && ctx.message.contact) {
         if (validate(ctx.message.contact.phone_number)) {
+            signale.info({ prefix: ctx.chat.id, message: 'CONTACT IS VALID.' });
             ctx.session.state.isHandlingPhone = false;
             ctx.session.state.isHandlingContact = false;
             ctx.session.state.participant.phone = format(ctx.message.contact.phone_number);
             return await checkPhone(ctx);
         }
 
+        signale.info({ prefix: ctx.chat.id, message: 'CONTACT IS INVALID.' });
         return await ctx.reply(strings.phone.error);
     }
 };
@@ -127,6 +138,7 @@ const scene = new Scene(Scenes.PHONE);
 
 scene.enter(async ctx => {
     initState(ctx);
+    signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.PHONE}.` });
     return await checkPhone(ctx);
 });
 scene.hears(strings.phone.enterByHand, requestPhone);

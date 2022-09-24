@@ -2,6 +2,7 @@ import Scene from 'telegraf/scenes/base';
 import { Scenes } from '@utils/constants';
 import strings from '@utils/strings';
 import keyboard from '@utils/keyboard';
+import signale from 'signale';
 
 const validate = (vk: string): boolean =>
     // eslint-disable-next-line
@@ -35,6 +36,10 @@ const checkVk = async ctx => {
     if (ctx.session.state.participant.vk) {
         ctx.session.state.isVkFilled = true;
 
+        signale.info({
+            prefix: ctx.chat.id,
+            message: `REQUEST CONFIRMATION FOR ${ctx.session.state.participant.vk}.`,
+        });
         return await ctx.reply(
             strings.vk.confirm(ctx.session.state.participant.vk),
             keyboard([[{ text: strings.vk.yes }, { text: strings.vk.no }]]),
@@ -47,6 +52,7 @@ const checkVk = async ctx => {
 
 // request only changes flag and send request to user
 const requestVk = async ctx => {
+    signale.info({ prefix: ctx.chat.id, message: 'REQUEST VK.' });
     ctx.session.state.isHandlingVk = true;
     ctx.session.state.isVkFilled = false;
 
@@ -59,11 +65,13 @@ const handleVk = async (ctx, next) => {
 
     if (ctx.session.state.isHandlingVk && ctx.message) {
         if (validate(ctx.message.text)) {
+            signale.info({ prefix: ctx.chat.id, message: 'VK IS VALID.' });
             ctx.session.state.isHandlingVk = false;
             ctx.session.state.participant.vk = format(ctx.message.text);
             return await checkVk(ctx);
         }
 
+        signale.info({ prefix: ctx.chat.id, message: 'VK IS INVALID.' });
         return await ctx.reply(strings.vk.error);
     }
 };
@@ -82,6 +90,7 @@ const scene = new Scene(Scenes.VKONTAKTE);
 
 scene.enter(async ctx => {
     initState(ctx);
+    signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.VKONTAKTE}.` });
     return await checkVk(ctx);
 });
 scene.hears(strings.initials.no, requestVk);
