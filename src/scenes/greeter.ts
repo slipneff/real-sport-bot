@@ -10,6 +10,6 @@ scene.enter(async ctx => {
     signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.GREETER}.` });
     await ctx.reply(strings.greeter.greeting, keyboard([[{ text: strings.greeter.start }]]));
 });
-scene.hears(strings.greeter.start, async ctx => await ctx.scene.enter(Scenes.INITIALS));
+scene.hears(strings.greeter.start, async ctx => await ctx.scene.enter(Scenes.WEEKS));
 
 export default scene;

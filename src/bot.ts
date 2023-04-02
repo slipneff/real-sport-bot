@@ -3,68 +3,75 @@ import session from 'telegraf/session';
 import Stage from 'telegraf/stage';
 import { Commands, Scenes } from '@utils/constants';
 import greeter from '@scenes/greeter';
-import initials from '@scenes/initials';
-import phone from '@scenes/phone';
-import quiz from '@scenes/quiz';
-import question from '@scenes/question';
-import results from '@scenes/results';
-import invalid from '@scenes/invalid';
-import vkontakte from '@scenes/vkontakte';
-import strings from '@utils/strings';
-import keyboard from '@utils/keyboard';
-import database from '@utils/database';
 import signale from 'signale';
+import weeks from '@scenes/weeks';
+import week1 from '@scenes/week1';
+import week3 from '@scenes/week3';
+import week2 from '@scenes/week2';
+import training1 from '@scenes/training1';
+import training2 from '@scenes/training2';
+import training3 from '@scenes/training3';
+import training4 from '@scenes/training4';
+import training14 from '@scenes/training14';
+import training5 from '@scenes/training5';
+import training6 from '@scenes/training6';
+import training7 from '@scenes/training7';
+import training8 from '@scenes/training8';
+import training9 from '@scenes/training9';
+import training10 from '@scenes/training10';
+import training11 from '@scenes/training11';
+import training12 from '@scenes/training12';
+import training13 from '@scenes/training13';
+import training15 from '@scenes/training15';
+import training1_easy from '@scenes/training1_easy';
+import training1_medium from '@scenes/training1_medium';
+import training1_hard from '@scenes/training1_hard';
+import training4_hard from '@scenes/training4_hard';
+import training4_medium from '@scenes/training4_medium';
+import training4_easy from '@scenes/training4_easy';
+import training2_hard from '@scenes/training2_hard';
+import training2_medium from '@scenes/training2_medium';
+import training2_easy from '@scenes/training2_easy';
 
 const initState = ctx => {
     ctx.session.state = {
         ...ctx.session.state,
-        section: 0,
-        question: 0,
-        score: 0,
-        participant: {
-            initials: '',
-            phone: '',
-            vk: '',
-            score: 0,
-        },
         timeout: undefined,
-        isHandlingPassword: false,
     };
 };
 
-const requestPassword = async ctx => {
-    signale.info({ prefix: ctx.chat.id, message: 'REQUEST PASSWORD.' });
-    ctx.session.state.isHandlingPassword = true;
-
-    return await ctx.reply(strings.excel.requestPassword, keyboard());
-};
-
-const handlePassword = async (ctx, next) => {
-    await next();
-
-    if (ctx.session && ctx.session.state && ctx.session.state.isHandlingPassword && ctx.message) {
-        ctx.session.state.isHandlingPassword = false;
-
-        if (ctx.message.text === process.env.EXCEL_PASSWORD) {
-            signale.info({ prefix: ctx.chat.id, message: 'PASSWORDS MATCH.' });
-            signale.info({ prefix: ctx.chat.id, message: 'GENERATE EXCEL TABLE.' });
-            const db = await database.read();
-            const table = database.exportTable(db);
-            const buffer = await table.writeToBuffer();
-
-            await ctx.replyWithDocument({ source: buffer, filename: strings.excel.file });
-            signale.success({ prefix: ctx.chat.id, message: 'SEND EXCEL TABLE.' });
-
-            return;
-        }
-
-        signale.warn({ prefix: ctx.chat.id, message: 'PASSWORDS MATCH.' });
-        return await ctx.reply(strings.excel.wrongPassword);
-    }
-};
-
 const stage = new Stage();
-stage.register(greeter, initials, phone, vkontakte, quiz, question, results, invalid);
+stage.register(
+    greeter,
+    weeks,
+    week1,
+    week2,
+    week3,
+    training1,
+    training1_easy,
+    training1_medium,
+    training1_hard,
+    training2,
+    training2_easy,
+    training2_medium,
+    training2_hard,
+    training3,
+    training4,
+    training4_easy,
+    training4_medium,
+    training4_hard,
+    training5,
+    training6,
+    training7,
+    training8,
+    training9,
+    training10,
+    training11,
+    training12,
+    training13,
+    training14,
+    training15,
+);
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_API_TOKEN);
 bot.use(session());
@@ -79,7 +86,6 @@ bot.start(async ctx => {
     // @ts-ignore
     return await ctx.scene.enter(Scenes.GREETER);
 });
-bot.command(Commands.RESULTS, requestPassword);
-bot.use(handlePassword);
+
 
 export default () => bot.startPolling();
