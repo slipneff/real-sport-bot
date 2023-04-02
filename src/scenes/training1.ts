@@ -15,6 +15,7 @@ scene.enter(async ctx => {
                 { text: strings.complexity.easy },
                 { text: strings.complexity.medium },
                 { text: strings.complexity.hard },
+                { text: strings.menu },
 
             ],
         ]),
@@ -23,5 +24,6 @@ scene.enter(async ctx => {
 scene.hears(strings.complexity.easy, async ctx => await ctx.scene.enter(Scenes.TRAINING1_EASY));
 scene.hears(strings.complexity.medium, async ctx => await ctx.scene.enter(Scenes.TRAINING1_MEDIUM));
 scene.hears(strings.complexity.hard, async ctx => await ctx.scene.enter(Scenes.TRAINING1_HARD));
+scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.WEEK1));
 
 export default scene;

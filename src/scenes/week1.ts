@@ -17,6 +17,7 @@ scene.enter(async ctx => {
                 { text: strings.trainings.training3.name },
                 { text: strings.trainings.training4.name },
                 { text: strings.trainings.training5.name },
+                { text: strings.menu },
             ],
         ]),
     );
@@ -26,5 +27,6 @@ scene.hears(strings.trainings.training2.name, async ctx => await ctx.scene.enter
 scene.hears(strings.trainings.training3.name, async ctx => await ctx.scene.enter(Scenes.TRAINING3));
 scene.hears(strings.trainings.training4.name, async ctx => await ctx.scene.enter(Scenes.TRAINING4));
 scene.hears(strings.trainings.training5.name, async ctx => await ctx.scene.enter(Scenes.TRAINING5));
+scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.WEEKS));
 
 export default scene;

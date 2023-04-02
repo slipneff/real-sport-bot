@@ -8,11 +8,11 @@ const scene = new Scene(Scenes.TRAINING1_EASY);
 
 scene.enter(async ctx => {
     signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.TRAINING1_EASY}.` });
-    await ctx.reply(strings.trainings.training1.easy.greeting);
-    await ctx.reply(strings.trainings.training1.easy.package1);
-    await ctx.reply(strings.trainings.training1.easy.package2);
-    await ctx.reply(strings.trainings.training1.easy.package3, keyboard([[{ text: strings.menu }]]));
+    await ctx.reply(strings.trainings.training1.easy.greeting, keyboard([[{ text: strings.package.package1 },{ text: strings.package.package2 },{ text: strings.package.package3 }, { text: strings.menu }]]));
 });
-scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.GREETER));
+scene.hears(strings.package.package1, async ctx => await ctx.scene.enter(Scenes.TRAINING1_EASY_1));
+scene.hears(strings.package.package2, async ctx => await ctx.scene.enter(Scenes.TRAINING1_EASY_2));
+scene.hears(strings.package.package3, async ctx => await ctx.scene.enter(Scenes.TRAINING1_EASY_3));
+scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.TRAINING1));
 
 export default scene;

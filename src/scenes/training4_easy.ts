@@ -18,6 +18,6 @@ scene.enter(async ctx => {
         ]),
     );
 });
-scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.GREETER));
+scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.TRAINING4));
 
 export default scene;
