@@ -13,14 +13,14 @@ scene.enter(async ctx => {
         keyboard([
             [
                 { text: strings.weeks.week1.name },
-                { text: strings.weeks.week2.name },
-                { text: strings.weeks.week3.name },
+                //{ text: strings.weeks.week2.name },
+                //{ text: strings.weeks.week3.name },
             ],
         ]),
     );
 });
 scene.hears(strings.weeks.week1.name, async ctx => await ctx.scene.enter(Scenes.WEEK1));
-scene.hears(strings.weeks.week2.name, async ctx => await ctx.scene.enter(Scenes.WEEK2));
-scene.hears(strings.weeks.week3.name, async ctx => await ctx.scene.enter(Scenes.WEEK3));
+//scene.hears(strings.weeks.week2.name, async ctx => await ctx.scene.enter(Scenes.WEEK2));
+//scene.hears(strings.weeks.week3.name, async ctx => await ctx.scene.enter(Scenes.WEEK3));
 
 export default scene;
