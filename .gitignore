@@ -107,3 +107,4 @@ dist
 # Lock files
 yarn.lock
 package.lock
+/src/images/
