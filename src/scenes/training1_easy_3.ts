@@ -9,11 +9,9 @@ const scene = new Scene(Scenes.TRAINING1_EASY_3);
 scene.enter(async ctx => {
     signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.TRAINING1_EASY_3}.` });
     await ctx.reply(strings.trainings.training1.easy.package3, keyboard([[{ text: strings.menu }]]));
-    await ctx.replyWithAnimation('CgACAgIAAxkBAAEfKchkKhD2gRMm0RKMOw2Ggu-uGBf-wAACdCsAAlhgUElCwFDJ1UmMcS8E');
-
-    await ctx.replyWithAnimation('CgACAgIAAxkBAAEfKctkKhEG3VAAAQ-7SVHBd0474zIYEEsAAnUrAAJYYFBJ206TsMuDPssvBA');
-
-    await ctx.replyWithAnimation('CgACAgIAAxkBAAEfKc1kKhEU9CoeuCjET2yR2qvib3xOiwACdisAAlhgUElkSPsBuAzpYS8E');
+    await ctx.replyWithAnimation({ source: __dirname + '/../images/3_1-min.gif' });
+    await ctx.replyWithAnimation({ source: __dirname + '/../images/3_2-min.gif' });
+    await ctx.replyWithAnimation({ source: __dirname + '/../images/3_3-min.gif' });
 });
 scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.WEEK1));
 
