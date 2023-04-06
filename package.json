@@ -46,9 +46,7 @@
     "displayScope": false,
     "displayBadge": true,
     "displayLabel": true,
-
     "uppercaseLabel": false,
-
     "underlineLabel": true,
     "underlinePrefix": false,
     "underlineMessage": false,
