@@ -10,7 +10,7 @@ scene.enter(async ctx => {
     signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.TRAINING1_EASY_1}.` });
     await ctx.reply(strings.trainings.training1.easy.package1, keyboard([[{ text: strings.menu }]]));
 
-    await ctx.replyWithAnimation({ source: '@images/1_1-min.gif' });
+    await ctx.replyWithAnimation({ source: __dirname + '/../images/1_1-min.gif' });
     await ctx.replyWithAnimation({ source: __dirname + '/../images/1_2-min.gif' });
     await ctx.replyWithAnimation({ source: __dirname + '/../images/1_3-min.gif' });
 });
