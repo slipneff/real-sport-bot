@@ -9,20 +9,24 @@ const scene = new Scene(Scenes.WEEK2);
 scene.enter(async ctx => {
     signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.WEEK2}.` });
     await ctx.reply(
-        strings.weeks.week1,
+        strings.weeks.week2.greeting,
         keyboard([
             [
-                { text: strings.trainings.training6 },
-                { text: strings.trainings.training7 },
-                { text: strings.trainings.training8 },
-                { text: strings.trainings.training9 },
-                { text: strings.trainings.training10 },
+                { text: strings.trainings.training6.name },
+                // { text: strings.trainings.training7.name },
+                // { text: strings.trainings.training8.name },
+                // { text: strings.trainings.training9.name },
+                // { text: strings.trainings.training10.name },
+                { text: strings.menu },
             ],
         ]),
     );
 });
-scene.hears(strings.weeks.week1, async ctx => await ctx.scene.enter(Scenes.WEEK1));
-scene.hears(strings.weeks.week2, async ctx => await ctx.scene.enter(Scenes.WEEK2));
-scene.hears(strings.weeks.week3, async ctx => await ctx.scene.enter(Scenes.WEEK3));
+scene.hears(strings.trainings.training6.name, async ctx => await ctx.scene.enter(Scenes.TRAINING6));
+scene.hears(strings.trainings.training7.name, async ctx => await ctx.scene.enter(Scenes.TRAINING7));
+scene.hears(strings.trainings.training8.name, async ctx => await ctx.scene.enter(Scenes.TRAINING8));
+scene.hears(strings.trainings.training9.name, async ctx => await ctx.scene.enter(Scenes.TRAINING9));
+scene.hears(strings.trainings.training10.name, async ctx => await ctx.scene.enter(Scenes.TRAINING10));
+scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.WEEKS));
 
 export default scene;
