@@ -15,7 +15,7 @@ scene.enter(async ctx => {
                 { text: strings.trainings.training6.name },
                 { text: strings.trainings.training7.name },
                 { text: strings.trainings.training8.name },
-                // { text: strings.trainings.training9.name },
+                { text: strings.trainings.training9.name },
                 // { text: strings.trainings.training10.name },
                 { text: strings.menu },
             ],
