@@ -7,7 +7,7 @@ import signale from 'signale';
 const scene = new Scene(Scenes.TRAINING8);
 
 scene.enter(async ctx => {
-    signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.TRAINING7}.` });
+    signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.TRAINING8}.` });
     await ctx.reply(
         strings.trainings.training8.greeting,
         keyboard([
