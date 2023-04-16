@@ -56,6 +56,9 @@ import training8_hard from '@scenes/training8_hard';
 import training9_easy from '@scenes/training9_easy';
 import training9_medium from '@scenes/training9_medium';
 import training9_hard from '@scenes/training9_hard';
+import training10_easy from '@scenes/training10_easy';
+import training10_medium from '@scenes/training10_medium';
+import training10_hard from '@scenes/training10_hard';
 
 const initState = ctx => {
     ctx.session.state = {
@@ -114,6 +117,9 @@ stage.register(
     training9_medium,
     training9_hard,
     training10,
+	training10_easy,
+    training10_medium,
+    training10_hard,
     training11,
     training12,
     training13,

@@ -4,12 +4,12 @@ import strings from '@utils/strings';
 import { Scenes } from '@utils/constants';
 import signale from 'signale';
 
-const scene = new Scene(Scenes.TRAINING10);
+const scene = new Scene(Scenes.TRAINING10_HARD);
 
 scene.enter(async ctx => {
-    signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.TRAINING10}.` });
+    signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.TRAINING10_HARD}.` });
     await ctx.reply(
-        strings.trainings.training10.greeting,
+        strings.trainings.training10.hard,
         keyboard([
             [
                 { text: strings.menu },
@@ -23,11 +23,11 @@ scene.enter(async ctx => {
     await ctx.replyWithAnimation({ source: __dirname + '/../images/train10/1_4.mp4' });
     await ctx.replyWithAnimation({ source: __dirname + '/../images/train10/1_5.mp4' });
     await ctx.replyWithAnimation({ source: __dirname + '/../images/train10/1_6.mp4' });
-	await ctx.replyWithAnimation({ source: __dirname + '/../images/train10/1_7.mp4' });
+    await ctx.replyWithAnimation({ source: __dirname + '/../images/train10/1_7.mp4' });
     await ctx.replyWithAnimation({ source: __dirname + '/../images/train10/1_8.mp4' });
     await ctx.replyWithAnimation({ source: __dirname + '/../images/train10/1_9.mp4' });
     await ctx.replyWithAnimation({ source: __dirname + '/../images/train10/1_10.mp4' });
 });
-scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.WEEK2));
+scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.TRAINING10));
 
 export default scene;
