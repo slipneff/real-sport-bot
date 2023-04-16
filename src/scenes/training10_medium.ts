@@ -9,7 +9,7 @@ const scene = new Scene(Scenes.TRAINING10_MEDIUM);
 scene.enter(async ctx => {
     signale.info({ prefix: ctx.chat.id, message: `ENTER ${Scenes.TRAINING10_MEDIUM}.` });
     await ctx.reply(
-        strings.trainings.training10.medium,
+        strings.trainings.training10.greeting,
         keyboard([
             [
                 { text: strings.menu },
