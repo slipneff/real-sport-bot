@@ -24,6 +24,6 @@ scene.enter(async ctx => {
 scene.hears(strings.complexity.easy, async ctx => await ctx.scene.enter(Scenes.TRAINING11_EASY));
 scene.hears(strings.complexity.medium, async ctx => await ctx.scene.enter(Scenes.TRAINING11_MEDIUM));
 scene.hears(strings.complexity.hard, async ctx => await ctx.scene.enter(Scenes.TRAINING11_HARD));
-scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.WEEK2));
+scene.hears(strings.menu, async ctx => await ctx.scene.enter(Scenes.WEEK3));
 
 export default scene;
